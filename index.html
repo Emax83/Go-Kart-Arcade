@@ -557,27 +557,27 @@
     <div id="driver-select" class="screen">
         <h2><i class="bi bi-person-fill"></i> Scegli il Pilota</h2>
         <div class="driver-list">
-            <div class="driver-option" onclick="selectDriver('SPEEDY SAM')">
+            <div class="driver-option" data-driver="1" onclick="selectDriver('1','SPEEDY SAM')">
                 <img title="SPEEDY SAM" alt="SPEEDY SAM" class="img-helmet" src="images/helmet-white.png" >
                 <span>SPEEDY SAM</span>
             </div>
-            <div class="driver-option" onclick="selectDriver('FLASH FRED')">
+            <div class="driver-option" data-driver="2" onclick="selectDriver('2','FLASH FRED')">
                 <img title="FLASH FRED" alt="FLASH FRED" class="img-helmet" src="images/helmet-red.png" >
                 <span>FLASH FRED</span>
             </div>
-            <div class="driver-option" onclick="selectDriver('ROCKET ROSA')">
+            <div class="driver-option" data-driver="3" onclick="selectDriver('3','ROCKET ROSA')">
                 <img title="ROCKET ROSA" alt="ROCKET ROSA" class="img-helmet" src="images/helmet-pink.png" >
                 <span>ROCKET ROSA</span>
             </div>
-            <div class="driver-option" onclick="selectDriver('TURBO ADRI')">
+            <div class="driver-option" data-driver="4" onclick="selectDriver('4','TURBO ADRI')">
                 <img title="TURBO ADRI" alt="TURBO ADRI" class="img-helmet" src="images/helmet-blue.png" >
                 <span>TURBO ADRI</span>
             </div>
-            <div class="driver-option" onclick="selectDriver('CATICOLL')">
+            <div class="driver-option" data-driver="5" onclick="selectDriver('5','CATICOLL')">
                 <img title="CATICOLL" alt="CATICOLL" class="img-helmet" src="images/helmet-yellow.png" >
                 <span>CATICOLL</span>
             </div>
-            <div class="driver-option" onclick="selectDriver('ZISORINO')">
+            <div class="driver-option" data-driver="6" onclick="selectDriver('6','ZISORINO')">
                 <img title="ZISORINO" alt="ZISORINO" class="img-helmet" src="images/helmet-green.png" >
                 <span>ZISORINO</span>
             </div>
@@ -717,9 +717,11 @@
         }
 
         // SELEZIONE PILOTA
-        function selectDriver(name) {
+        function selectDriver(id, name) {
+            //console.log("selectDriver: " + name);
             document.querySelectorAll('.driver-option').forEach(d => d.classList.remove('selected'));
-            event.target.classList.add('selected');
+            //event.currentTarget.classList.add('selected');
+            document.querySelector(`[data-driver="${id}"]`).classList.add('selected');
             gameState.selectedDriver = name;
             document.getElementById('driver-next').disabled = false;
         }
@@ -857,8 +859,11 @@
                 turboActive = true;
                 turboTime = Date.now();
                 turboBoostY = -100;
-                
+                if(fuel > 0){
+                    fuel = fuel - 1;
+                }
                 setTimeout(() => {
+                    turboBoostY = 0;
                     turboActive = false;
                 }, 2000);
             }
