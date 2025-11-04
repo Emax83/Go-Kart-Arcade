@@ -6,6 +6,7 @@
     
     <!-- SEO Meta Tags -->
     <title>Go-Kart Arcade - Gioco di Corse Retrò</title>
+    
     <meta name="description" content="Gioco arcade di corse go-kart in stile anni '80. Evita gli ostacoli, raccogli carburante e batti il tuo record! Gioco gratuito per bambini e adulti.">
     <meta name="keywords" content="go-kart, gioco arcade, corse, racing game, gioco retrò, anni 80, gioco gratis, kart racing, gioco browser">
     <meta name="author" content="Go-Kart Arcade Game">
@@ -17,10 +18,25 @@
     <!-- Web App Manifest -->
     <link rel="manifest" href="/site.webmanifest">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏎️</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏎️</text></svg>">
-    
+    <!-- Favicon e Icone -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Icone PNG per diversi dispositivi -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    <!-- Manifest PWA -->
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Windows Tiles (facoltativo, ma utile) -->
+    <meta name="msapplication-TileColor" content="#1a0033">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    <meta name="theme-color" content="#1a0033">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Go-Kart Arcade - Gioco di Corse Retrò">
@@ -31,7 +47,7 @@
     <meta name="twitter:title" content="Go-Kart Arcade - Gioco di Corse Retrò">
     <meta name="twitter:description" content="Gioco arcade di corse go-kart in stile anni '80. Evita gli ostacoli, raccogli carburante e batti il tuo record!">
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <style>
         * {
             box-sizing: border-box;
@@ -103,16 +119,23 @@
             50% { transform: scale(1.1); }
         }
 
+        .div-navigation{
+            display: flex;
+            justify-content: space-around;
+        }
+
         /* SELEZIONE KART */
         #kart-select {
             background: linear-gradient(180deg, #003366 0%, #000 100%);
         }
 
         .kart-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+             display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
             gap: 30px;
-            margin: 2rem 0;
+            padding: 2rem 0;
+            overflow: auto;
         }
 
         .kart-option {
@@ -158,16 +181,17 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 20px;
-            margin: 2rem 0;
+            padding: 2rem 0;
+            overflow: auto;
         }
 
         .driver-option {
-            padding: 20px 40px;
+            padding: 1rem;
             border: 3px solid #666;
             cursor: pointer;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             transition: all 0.3s;
-            width: 350px;
+            width: 150px;
             text-align: center;
         }
 
@@ -436,6 +460,34 @@
             margin-bottom: 2rem;
             text-shadow: 0 0 10px currentColor;
         }
+
+        .img-kart{
+            max-width: max-content;
+            width: 100%;
+        }
+
+        .img-helmet{
+            max-width: max-content;
+            width: 100%;
+        }
+
+        .btn-restart {
+            position: absolute;
+            left: 50%;
+            top: 70%;
+            transform: translate(-50%, -50%);
+            padding: 15px 30px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 12px;
+            background-color: #ff0000;
+            color: #fff;
+            border: solid 2px #fbff00;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+        }
+
     </style>
 </head>
 <body>
@@ -455,31 +507,43 @@
         <h2><i class="bi bi-cart-fill"></i> Scegli il tuo Kart</h2>
         <div class="kart-grid">
             <div class="kart-option" data-kart="red" onclick="selectKart('red', '#ff0000', '1')">
-                <div class="kart-preview" style="color: #ff0000;">🏎️</div>
+                <div class="kart-preview" style="color: #ff0000;">
+                    <img src="images/gokart-red.png" alt="ROSSO #1" title="ROSSO #1" class="img-kart">
+                </div>
                 <div>ROSSO #1</div>
             </div>
             <div class="kart-option" data-kart="blue" onclick="selectKart('blue', '#0088ff', '2')">
-                <div class="kart-preview" style="color: #0088ff;">🏎️</div>
+                <div class="kart-preview" style="color: #0088ff;">
+                    <img src="images/gokart-blue.png" alt="BLU #2" title="BLU #2" class="img-kart">
+                </div>
                 <div>BLU #2</div>
             </div>
             <div class="kart-option" data-kart="yellow" onclick="selectKart('yellow', '#ffff00', '3')">
-                <div class="kart-preview" style="color: #ffff00;">🏎️</div>
+                <div class="kart-preview" style="color: #ffff00;">
+                    <img src="images/gokart-yellow.png" alt="GIALLO #3" title="GIALLO #3" class="img-kart">
+                </div>
                 <div>GIALLO #3</div>
             </div>
             <div class="kart-option" data-kart="green" onclick="selectKart('green', '#00ff00', '4')">
-                <div class="kart-preview" style="color: #00ff00;">🏎️</div>
+                <div class="kart-preview" style="color: #00ff00;">
+                    <img src="images/gokart-green.png" alt="VERDE #4" title="VERDE #4" class="img-kart">
+                </div>
                 <div>VERDE #4</div>
             </div>
             <div class="kart-option" data-kart="purple" onclick="selectKart('purple', '#ff00ff', '5')">
-                <div class="kart-preview" style="color: #ff00ff;">🏎️</div>
+                <div class="kart-preview" style="color: #ff00ff;">
+                    <img src="images/gokart-purple.png" alt="VIOLA #5" title="VIOLA #5" class="img-kart">
+                </div>
                 <div>VIOLA #5</div>
             </div>
             <div class="kart-option" data-kart="orange" onclick="selectKart('orange', '#ff8800', '6')">
-                <div class="kart-preview" style="color: #ff8800;">🏎️</div>
+                <div class="kart-preview" style="color: #ff8800;">
+                    <img src="images/gokart-orange.png" alt="ARANCIO #6" title="ARANCIO #6" class="img-kart">
+                </div>
                 <div>ARANCIO #6</div>
             </div>
         </div>
-        <div>
+        <div class="div-navigation">
             <button class="btn-back" onclick="showScreen('welcome')">
                 <i class="bi bi-arrow-left"></i> INDIETRO
             </button>
@@ -493,14 +557,32 @@
     <div id="driver-select" class="screen">
         <h2><i class="bi bi-person-fill"></i> Scegli il Pilota</h2>
         <div class="driver-list">
-            <div class="driver-option" onclick="selectDriver('TURBO MAX')">⚡ TURBO MAX</div>
-            <div class="driver-option" onclick="selectDriver('SPEEDY SAM')">🚀 SPEEDY SAM</div>
-            <div class="driver-option" onclick="selectDriver('FLASH FRED')">💨 FLASH FRED</div>
-            <div class="driver-option" onclick="selectDriver('ROCKET ROSA')">🌟 ROCKET ROSA</div>
-            <div class="driver-option" onclick="selectDriver('ZOOM ZARA')">⭐ ZOOM ZARA</div>
-            <div class="driver-option" onclick="selectDriver('ZOOM ZARA')">⭐ CATICOLL</div>
+            <div class="driver-option" onclick="selectDriver('SPEEDY SAM')">
+                <img title="SPEEDY SAM" alt="SPEEDY SAM" class="img-helmet" src="images/helmet-white.png" >
+                <span>SPEEDY SAM</span>
+            </div>
+            <div class="driver-option" onclick="selectDriver('FLASH FRED')">
+                <img title="FLASH FRED" alt="FLASH FRED" class="img-helmet" src="images/helmet-red.png" >
+                <span>FLASH FRED</span>
+            </div>
+            <div class="driver-option" onclick="selectDriver('ROCKET ROSA')">
+                <img title="ROCKET ROSA" alt="ROCKET ROSA" class="img-helmet" src="images/helmet-pink.png" >
+                <span>ROCKET ROSA</span>
+            </div>
+            <div class="driver-option" onclick="selectDriver('TURBO ADRI')">
+                <img title="TURBO ADRI" alt="TURBO ADRI" class="img-helmet" src="images/helmet-blue.png" >
+                <span>TURBO ADRI</span>
+            </div>
+            <div class="driver-option" onclick="selectDriver('CATICOLL')">
+                <img title="CATICOLL" alt="CATICOLL" class="img-helmet" src="images/helmet-yellow.png" >
+                <span>CATICOLL</span>
+            </div>
+            <div class="driver-option" onclick="selectDriver('ZISORINO')">
+                <img title="ZISORINO" alt="ZISORINO" class="img-helmet" src="images/helmet-green.png" >
+                <span>ZISORINO</span>
+            </div>
         </div>
-        <div>
+        <div class="div-navigation">
             <button class="btn-back" onclick="showScreen('kart-select')">
                 <i class="bi bi-arrow-left"></i> INDIETRO
             </button>
@@ -574,13 +656,22 @@
 
         // CARATTERISTICHE KART
         const kartSpecs = {
-            'red': { maxSpeed: 145, name: 'ROSSO #1' },
-            'blue': { maxSpeed: 160, name: 'BLU #2' },
-            'yellow': { maxSpeed: 130, name: 'GIALLO #3' },
-            'green': { maxSpeed: 155, name: 'VERDE #4' },
-            'purple': { maxSpeed: 120, name: 'VIOLA #5' },
-            'orange': { maxSpeed: 140, name: 'ARANCIO #6' }
+            'red': { maxSpeed: 145, name: 'ROSSO #1', kart: '/images/gokart-white.png' },
+            'blue': { maxSpeed: 160, name: 'BLU #2', kart: '/images/gokart-white.png' },
+            'yellow': { maxSpeed: 130, name: 'GIALLO #3', kart: '/images/gokart-white.png' },
+            'green': { maxSpeed: 155, name: 'VERDE #4', kart: '/images/gokart-white.png' },
+            'purple': { maxSpeed: 120, name: 'VIOLA #5', kart: '/images/gokart-white.png' },
+            'orange': { maxSpeed: 140, name: 'ARANCIO #6', kart: '/images/gokart-white.png' }
         };
+
+        const drivers = {
+            1: { name: 'SPEEDY SAM', helmet: '/images/helmet-white.png' },
+            2: { name: 'FLASH FRED', helmet: '/images/helmet-white.png' },
+            3: { name: 'ROCKET ROSA', helmet: '/images/helmet-white.png' },
+            4: { name: 'TURBO ADRI', helmet: '/images/helmet-white.png' },
+            5: { name: 'CATICOLL', helmet: '/images/helmet-white.png' },
+            6: { name: 'ZISORINO', helmet: '/images/helmet-white.png' }
+        }
 
         // RECORD
         function getRecord() {
@@ -1122,6 +1213,20 @@
                 ctx.fillStyle = '#fff';
                 ctx.font = 'bold 30px Arial';
                 ctx.fillText('Premi ESC per uscire', canvas.width / 2, canvas.height / 2 + 100);
+
+                // --- Aggiungi bottone "Gioca di nuovo" ---
+                if (!document.getElementById('retryButton')) {
+                    const btn = document.createElement('button');
+                    btn.id = 'retryButton';
+                    btn.textContent = '🎮 Gioca di nuovo';
+                    btn.className = 'btn-restart';
+                    btn.onclick = () => {
+                        btn.remove();
+                        exitToMenu();
+                    };
+                    document.body.appendChild(btn);
+                }
+
             }
 
             if (crashed) {
