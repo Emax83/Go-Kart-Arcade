@@ -876,9 +876,9 @@
             roadOffset += speed / 10;
 
             const metersTraveled = distance;
-            if (Math.floor(metersTraveled / 1000) > lastFuelConsumption) {
+            if (Math.floor(metersTraveled / 500) > lastFuelConsumption) {
                 fuel = Math.max(0, fuel - 1);
-                lastFuelConsumption = Math.floor(metersTraveled / 1000);
+                lastFuelConsumption = Math.floor(metersTraveled / 500);
                 
                 if (fuel <= 0) {
                     endGame();
@@ -912,7 +912,7 @@
                 can.y += speed / 10;
 
                 if (Math.abs(can.x - kart.x) < 40 && Math.abs(can.y - (kart.y + turboBoostY)) < 60) {
-                    fuel = Math.min(maxFuel, fuel + 5);
+                    fuel = Math.min(maxFuel, fuel + 1);
                     fuelCans.splice(index, 1);
                 }
 
