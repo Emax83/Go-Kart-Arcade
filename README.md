@@ -10,7 +10,7 @@ Un gioco arcade di corse go-kart in stile retrò anni ’80, creato con HTML5, C
 
 ## 🎮 Demo
 
-[Gioca Ora!](#) *(Inserisci qui il link al deploy su Vercel)*
+[Gioca Ora!](https://go-kart-arcade.vercel.app)
 
 ## ✨ Caratteristiche
 
