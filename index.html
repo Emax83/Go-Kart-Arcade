@@ -859,12 +859,11 @@
                 turboActive = true;
                 turboTime = Date.now();
                 turboBoostY = -100;
-                if(fuel > 0){
-                    fuel = fuel - 1;
-                }
+                
                 setTimeout(() => {
                     turboBoostY = 0;
                     turboActive = false;
+                    fuel = fuel - 1;
                 }, 2000);
             }
         }
