@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Go-Kart Arcade</title>
-
-
-    
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         * {
@@ -303,6 +299,91 @@
             background: #666;
             cursor: not-allowed;
             opacity: 0.5;
+        }
+
+        .btn-back {
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            background: #ff6600;
+            border: 3px solid #fff;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 2rem;
+            margin-right: 1rem;
+        }
+
+        .btn-pause {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 1.3rem;
+            background: rgba(255, 255, 0, 0.8);
+            border: 3px solid #fff;
+            color: #000;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 20;
+            text-transform: uppercase;
+        }
+
+        .btn-pause:hover {
+            background: rgba(255, 255, 0, 1);
+        }
+
+        .pause-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .pause-modal.active {
+            display: flex;
+        }
+
+        .pause-modal h2 {
+            color: #ffff00;
+            font-size: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .pause-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pause-btn {
+            padding: 20px 60px;
+            font-size: 2rem;
+            border: 3px solid #fff;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            min-width: 300px;
+        }
+
+        .pause-btn-resume {
+            background: #00ff00;
+            color: #000;
+        }
+
+        .pause-btn-exit {
+            background: #ff0000;
+            color: #fff;
+        }
+
+        .pause-btn:hover {
+            transform: scale(1.05);
         }
 
         h2 {
