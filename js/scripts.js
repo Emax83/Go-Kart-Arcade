@@ -648,8 +648,9 @@
             } else {
                 btn.classList.remove('active');
                 btn.textContent = '🔇 Audio OFF';
-                bgMusic.pause();
-
+                if(bgMusic){
+                    bgMusic.pause();
+                }
             }
 
             saveAudioSettings();
@@ -727,6 +728,13 @@
                 audioEnabled = audioSettings.enabled;
                 musicId = audioSettings.musicId;
                 changeMusic(musicId);
+            }
+            const div = document.getElementById('audio-settings');
+            if(audioEnabled){
+                div.textContent = '🔊 Audio ON';
+            }
+            else{
+                div.textContent = '🔇 Audio OFF';
             }
         }
 
