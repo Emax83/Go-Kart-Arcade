@@ -1126,7 +1126,9 @@
                 document.getElementById('pause-time-record').textContent = formatTime(record.time || gameTime);
             } else {
                 // Riprendi il timer
+                paused = false;
                 gameStartTime = Date.now() - (gameTime * 1000);
+                gameLoop();
             }
         }
 
@@ -1375,7 +1377,7 @@
             const btn = document.getElementById('audioToggle');
             audioEnabled = !audioEnabled;
             if(bgMusic == null){
-                bgMusic = sounds.bgMusic01;
+                changeMusic(1);
             }
             if (audioEnabled) {
                 btn.classList.add('active');
@@ -1386,6 +1388,7 @@
                 btn.textContent = '🔇 Audio OFF';
                 bgMusic.pause();
             }
+            saveAudioSettings();
         }
 
         function changeMusic(index){
@@ -1420,6 +1423,8 @@
                 bgMusic.loop = true;
                 bgMusic.play().catch((err) => { console.error('changeMusic.bgMusic.play',err); });
             }
+
+            saveAudioSettings();
         }
 
         // Funzione per suoni specifici
@@ -1431,6 +1436,26 @@
                 sound.play().catch((err) => {console.error('Error playing sound: ',err)});
             }
         }
+
+
+        function saveAudioSettings(){
+            let audioSettings = { enabled: audioEnabled, music: bgMusic};
+            localStorage.setItem('audioSettings', JSON.stringify(audioSettings) );
+        }
+
+        function loadAudioSettings(){
+            let data = localStorage.getItem('audioSettings');
+            if(data){
+                let audioSettings = JSON.parse(data);
+                audioEnabled = audioSettings.enabled;
+                bgMusic = audioSettings.music;
+                if(bgMusic){
+                    bgMusic.play().catch((err) => { console.error('loadAudioSettings.bgMusic.play',err); });
+                }
+            }
+        }
+
+
 
         function draw() {
             if (gameOver) return;
@@ -1624,9 +1649,9 @@
 
         fillDriversList();
         fillKartList();
-
-        // Inizializza display record
+        loadAudioSettings();
         displayRecord();
+        
     </script>
 </body>
 </html>
