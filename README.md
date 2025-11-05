@@ -94,8 +94,13 @@ python -m http.server 8000
 gokart-arcade/
 │
 ├── index.html          # File principale del gioco
+├── /css/style.css      # File di stile
+├── /js/scripts.js      # File javascript con logica e funzioni
+├── /sounds             # Cartella contenente i suoni
+├── /imagestml          # Cartella contenente le immagini dei kart e caschi
 ├── README.md           # Questo file
-└── manifest.json       # (Opzionale) Web App Manifest
+├── LICENSE.txt         # File licenza MIT
+└── site.webmanifest    # Web App Manifest
 ```
 
 ## 🎨 Caratteristiche Tecniche
@@ -108,7 +113,8 @@ gokart-arcade/
 - ✅ **SEO ottimizzato** con meta tag completi
 
 ## Musica in stile chiptune NES style.
-🎵 music.wav – breve loop ritmico, basso synth in 8-bit
+🎵 music-01.mp3 – musica di sottofondo v.1, basso synth in 8-bit
+🎵 music-02.mp3 – musica di sottofondo v.2, basso synth in 8-bit
 💥 collision.wav – colpo breve tipo “explosion pixelata”
 ⛽ fuel.wav – suono acuto positivo, classico power-up
 🚦 start.wav – tre toni ascendenti “ready-set-go”
@@ -146,9 +152,10 @@ gokart-arcade/
 ### Sistema Carburante
 
 - **Inizio**: 10 litri
-- **Consumo**: 1 litro ogni 1000 metri (1 km)
-- **Bidoni carburante**: +5 litri (max 10L)
+- **Consumo**: 1 litro ogni 500 metri
+- **Bidoni carburante**: +1 litri (max 10L)
 - **Collisioni**: -1 litro per ogni scontro
+- **Turbo**: -1 litro per ogni utilizzo
 
 ### Velocità e Movimento
 
