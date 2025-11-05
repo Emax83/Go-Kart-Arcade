@@ -428,7 +428,7 @@
             paused = false;
             document.getElementById('pause-modal').classList.remove('active');
 
-            showScreen('kart-select');
+            showScreen('welcome');
             
             document.querySelectorAll('.kart-option').forEach(k => k.classList.remove('selected'));
             document.querySelectorAll('.driver-option').forEach(d => d.classList.remove('selected'));
