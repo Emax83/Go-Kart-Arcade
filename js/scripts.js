@@ -43,9 +43,9 @@ document.addEventListener('visibilitychange', () => {
         }
 
         const kartGrid = document.querySelector('.kart-grid');
-        kartGrid.innerHTML="";
         function fillKartList(){
             // Popola la lista dei kart
+               kartGrid.innerHTML="";
             Object.entries(kartSpecs).forEach(([key, kart], i) => {
                 const div = document.createElement('div');
                 div.className = 'kart-option';
@@ -62,9 +62,9 @@ document.addEventListener('visibilitychange', () => {
         }
 
         const driverList = document.querySelector('.driver-list');
-        driverList.innerHTML="";
         function fillDriversList(){
         // Popola la lista dei piloti
+            driverList.innerHTML="";
             Object.entries(drivers).forEach(([id, driver]) => {
                 const div = document.createElement('div');
                 div.className = 'driver-option';
@@ -602,9 +602,9 @@ document.addEventListener('visibilitychange', () => {
             victory: new Audio('/sounds/victory.wav')
         };
         sounds.bgMusic01.loop = true;
-        sounds.bgMusic01.volume = 0.5;
+        sounds.bgMusic01.volume = 0.3;
         sounds.bgMusic02.loop = true;
-        sounds.bgMusic02.volume = 0.5;
+        sounds.bgMusic02.volume = 0.3;
 
         // Toggle musica
         function toggleAudio() {
