@@ -181,6 +181,9 @@ document.addEventListener('visibilitychange', () => {
             document.getElementById('player-info').textContent = 
                 `${gameState.selectedDriver} - KART #${gameState.kartNumber}`;
             initGame();
+            if(audioEnabled && bgMusic){
+               bgMusic.play().catch((err) => {console.error('startGame.bgMusic.play', err);});
+            }
         }
 
         // GIOCO
