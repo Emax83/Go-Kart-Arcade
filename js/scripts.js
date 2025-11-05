@@ -320,7 +320,7 @@ document.addEventListener('visibilitychange', () => {
                 turboActive = true;
                 turboTime = Date.now();
                 turboBoostY = -100;
-                
+                playSound('turbo');
                 setTimeout(() => {
                     turboBoostY = 0;
                     turboActive = false;
@@ -371,7 +371,9 @@ document.addEventListener('visibilitychange', () => {
             const modal = document.getElementById('gameover-modal');
             modal.classList.add('active');
             modal.classList.remove('hidden');
-
+            playSound('finish');
+            bgMusic.pause();
+               
             const record = getRecord();
             const isNewRecord = Math.floor(distance) >= record.distance;
 
@@ -386,6 +388,7 @@ document.addEventListener('visibilitychange', () => {
                 recordEl.innerHTML = `<span style="color:#00ff00; font-size:1.3em;">🏆 NUOVO RECORD! 🏆</span>`;
             } else {
                 recordEl.innerHTML = `🏆 Record: ${record.distance}m | ⏱️ ${formatTime(record.time)}`;
+                playSound('victory');
             }
 
             modal.classList.remove('hidden');
@@ -571,14 +574,6 @@ document.addEventListener('visibilitychange', () => {
             setTimeout(() => {
                 showModalGameOver();
 
-                playSound('finish');
-
-                const isNewRecord = saveRecord(distance, gameTime);
-
-                if(isNewRecord){
-                    playSound('victory');
-                }
-
             }, 100); // piccolo delay per uscire dal frame corrente
         }
 
@@ -599,7 +594,8 @@ document.addEventListener('visibilitychange', () => {
             fuel: new Audio('/sounds/fuel.wav'),
             start: new Audio('/sounds/start.wav'),
             finish: new Audio('/sounds/finish.wav'),
-            victory: new Audio('/sounds/victory.wav')
+            victory: new Audio('/sounds/victory.wav'),
+            turbo: new Audio('/sounds/turbo.wav')
         };
         sounds.bgMusic01.loop = true;
         sounds.bgMusic01.volume = 0.3;
