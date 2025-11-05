@@ -359,6 +359,7 @@
             if (gameOver) return;
             
             console.log('togglePause.paused: ' + paused);
+            alert('togglePause');
 
             paused = !paused;
             const modal = document.getElementById('pause-modal');
