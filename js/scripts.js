@@ -605,6 +605,7 @@
         }
 
         let audioEnabled = false;
+        let musicId = 0;
         let bgMusic = null;
         // Suoni di gioco
         const sounds = {
@@ -626,12 +627,12 @@
         function toggleAudio() {
             const btn = document.getElementById('audioToggle');
             audioEnabled = !audioEnabled;
-            if(bgMusic == null){
-                changeMusic(1);
-            }
             if (audioEnabled) {
                 btn.classList.add('active');
-                btn.textContent = '🔈 Audio ON';
+                btn.textContent = '🔊 Audio ON';
+                if(musicId > 0) {
+                    changeMusic(musicId);
+                }
                 bgMusic.play().catch((err) => { console.error("toggleAudio.bgMusic.play", err); }); // play richiede interazione utente
             } else {
                 btn.classList.remove('active');
@@ -642,6 +643,7 @@
         }
 
         function changeMusic(index){
+
             // Rimuove la classe 'active' da tutti i pulsanti
             document.querySelectorAll('.music-btn').forEach(btn => btn.classList.remove('active'));
 
@@ -664,11 +666,13 @@
                     bgMusic = sounds.bgMusic02;
                     break;
                 default:
-                    bgMusic = sounds.bgMusic01;
+                    bgMusic = null;
                     break;
             }
-            
-            if (bgMusic) {
+
+            musicId = index;
+
+            if (musicId > 0) {
                 bgMusic.volume = 0.5;
                 bgMusic.loop = true;
                 bgMusic.play().catch((err) => { console.error('changeMusic.bgMusic.play',err); });
@@ -678,10 +682,16 @@
         }
 
         function startMusic(){
-            if(audioEnabled && bgMusic){
-                bgMusic.play().catch((err) => {console.error('startMusic.bgMusic.play', err);});
+            if(audioEnabled){
+                const btn = document.getElementById('audioToggle');
+                btn.classList.add('active');
+                btn.textContent = '🔊 Audio ON';
+            }
+            if(audioEnabled && musicId > 0){
+                changeMusic(musicId);
             }
         }
+
 
         // Funzione per suoni specifici
         function playSound(type) {
@@ -695,7 +705,7 @@
 
 
         function saveAudioSettings(){
-            let audioSettings = { enabled: audioEnabled, music: bgMusic.src };
+            let audioSettings = { enabled: audioEnabled, musicId: musicId };
             localStorage.setItem('audioSettings', JSON.stringify(audioSettings) );
         }
 
@@ -704,9 +714,8 @@
             if(data){
                 let audioSettings = JSON.parse(data);
                 audioEnabled = audioSettings.enabled;
-                bgMusic = new Audio(audioSettings.music);
-                bgMusic.loop = true;
-                bgMusic.volume = 0.3;
+                musicId = audioSettings.musicId;
+                changeMusic(musicId);
             }
         }
 
