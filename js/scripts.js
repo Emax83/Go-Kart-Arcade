@@ -426,9 +426,8 @@
         }
 
         function exitToMenu() {
-            location.reload(true);
-            return;
-
+            location.reload();
+            /*
             if (animationId) {
                 cancelAnimationFrame(animationId);
             }
@@ -442,6 +441,7 @@
             document.querySelectorAll('.driver-option').forEach(d => d.classList.remove('selected'));
             document.getElementById('kart-next').disabled = true;
             document.getElementById('driver-next').disabled = true;
+            */
         }
 
         function update() {
