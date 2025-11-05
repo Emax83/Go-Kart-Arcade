@@ -2,7 +2,6 @@
             if (checkScreenSize()) {
                 //startGame();
             }
-           toggleAudio();
         });
 
         document.addEventListener('visibilitychange', () => {
@@ -668,6 +667,12 @@
             saveAudioSettings();
         }
 
+        function startMusic(){
+            if(audioEnabled && bgMusic){
+                bgMusic.play().catch((err) => {console.error('startMusic.bgMusic.play', err);});
+            }
+        }
+
         // Funzione per suoni specifici
         function playSound(type) {
         if (!audioEnabled) return;
@@ -691,10 +696,7 @@
                 audioEnabled = audioSettings.enabled;
                 bgMusic = new Audio(audioSettings.music);
                 bgMusic.loop = true;
-                bgMusic.volume = 0.5;
-                if(bgMusic){
-                    bgMusic.play().catch((err) => { console.error('loadAudioSettings.bgMusic.play',err); });
-                }
+                bgMusic.volume = 0.3;
             }
         }
 
