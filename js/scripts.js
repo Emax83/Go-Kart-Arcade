@@ -256,51 +256,42 @@
             const turboBtn = document.getElementById('turbo-btn');
             const pauseBtn = document.getElementById('pause-btn');
 
-            leftBtn.addEventListener('mousedown', () => leftPressed = true);
-            leftBtn.addEventListener('mouseup', () => leftPressed = false);
-            leftBtn.addEventListener('mouseleave', () => leftPressed = false);
+            // 🔹 rimuovi vecchi listener duplicati (se esistono)
+            leftBtn.replaceWith(leftBtn.cloneNode(true));
+            rightBtn.replaceWith(rightBtn.cloneNode(true));
+            turboBtn.replaceWith(turboBtn.cloneNode(true));
+            pauseBtn.replaceWith(pauseBtn.cloneNode(true));
 
-            rightBtn.addEventListener('mousedown', () => rightPressed = true);
-            rightBtn.addEventListener('mouseup', () => rightPressed = false);
-            rightBtn.addEventListener('mouseleave', () => rightPressed = false);
+            // 🔹 riottieni i nuovi riferimenti agli elementi
+            const left = document.getElementById('left-btn');
+            const right = document.getElementById('right-btn');
+            const turbo = document.getElementById('turbo-btn');
+            const pause = document.getElementById('pause-btn');
 
-            leftBtn.addEventListener('touchstart', (e) => { 
-                e.preventDefault(); 
-                leftPressed = true; 
-            });
-            leftBtn.addEventListener('touchend', (e) => { 
-                e.preventDefault(); 
-                leftPressed = false; 
-            });
-            leftBtn.addEventListener('touchcancel', (e) => { 
-                e.preventDefault(); 
-                leftPressed = false; 
-            });
+            // 🔹 gestisci in modo unificato touch vs click
+            const isTouch = 'ontouchstart' in window;
 
-            rightBtn.addEventListener('touchstart', (e) => { 
-                e.preventDefault(); 
-                rightPressed = true; 
-            });
-            rightBtn.addEventListener('touchend', (e) => { 
-                e.preventDefault(); 
-                rightPressed = false; 
-            });
-            rightBtn.addEventListener('touchcancel', (e) => { 
-                e.preventDefault(); 
-                rightPressed = false; 
-            });
+            if (isTouch) {
+                left.addEventListener('touchstart', (e) => { e.preventDefault(); leftPressed = true; });
+                left.addEventListener('touchend', (e) => { e.preventDefault(); leftPressed = false; });
 
-            turboBtn.addEventListener('click', activateTurbo);
-            turboBtn.addEventListener('touchstart', (e) => { 
-                e.preventDefault(); 
-                activateTurbo(); 
-            });
+                right.addEventListener('touchstart', (e) => { e.preventDefault(); rightPressed = true; });
+                right.addEventListener('touchend', (e) => { e.preventDefault(); rightPressed = false; });
 
-            pauseBtn.addEventListener('click', togglePause);
-            pauseBtn.addEventListener('touchstart', (e) => { 
-                e.preventDefault(); 
-                togglePause(); 
-            });
+                turbo.addEventListener('touchstart', (e) => { e.preventDefault(); activateTurbo(); });
+                pause.addEventListener('touchstart', (e) => { e.preventDefault(); togglePause(); });
+            } else {
+                left.addEventListener('mousedown', () => leftPressed = true);
+                left.addEventListener('mouseup', () => leftPressed = false);
+                left.addEventListener('mouseleave', () => leftPressed = false);
+
+                right.addEventListener('mousedown', () => rightPressed = true);
+                right.addEventListener('mouseup', () => rightPressed = false);
+                right.addEventListener('mouseleave', () => rightPressed = false);
+
+                turbo.addEventListener('click', activateTurbo);
+                pause.addEventListener('click', togglePause);
+            }
 
             // TASTIERA
             document.addEventListener('keydown', handleKeyDown);
@@ -359,7 +350,6 @@
             if (gameOver) return;
             
             console.log('togglePause.paused: ' + paused);
-            alert('togglePause');
 
             paused = !paused;
             const modal = document.getElementById('pause-modal');
