@@ -390,10 +390,10 @@
             modal.classList.add('active');
             modal.classList.remove('hidden');
             playSound('finish');
-            if(bgMusic){
+            
+            if (bgMusic) {
                     bgMusic.pause();
             }
-               
 
             paused = false;
             document.getElementById('pause-modal').classList.remove('active');
@@ -426,6 +426,9 @@
         }
 
         function exitToMenu() {
+            location.reload(true);
+            return;
+
             if (animationId) {
                 cancelAnimationFrame(animationId);
             }
@@ -643,7 +646,7 @@
                 bgMusic.pause();
 
             }
-            
+
             saveAudioSettings();
         }
 
@@ -862,7 +865,7 @@
                 ctx.fillStyle = '#ff0000';
                 ctx.font = 'bold 50px Arial';
                 ctx.textAlign = 'center';
-                ctx.fillText('💥 COLLISIONE! -1L 💥', canvas.width / 2, 150);
+                ctx.fillText('💥 COLLISIONE! 💥', canvas.width / 2, 150);
             }
 
             if (gameOver) {
