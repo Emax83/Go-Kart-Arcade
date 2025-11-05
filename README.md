@@ -107,6 +107,30 @@ gokart-arcade/
 - ✅ **Progressive Web App** pronta
 - ✅ **SEO ottimizzato** con meta tag completi
 
+## Musica in stile chiptune NES style.
+🎵 music.wav – breve loop ritmico, basso synth in 8-bit
+💥 collision.wav – colpo breve tipo “explosion pixelata”
+⛽ fuel.wav – suono acuto positivo, classico power-up
+🚦 start.wav – tre toni ascendenti “ready-set-go”
+🏁 finish.wav – scala discendente tipo “game over”
+
+## Tutte le icone sostituite con emoji e caratteri speciali:
+🏁 Flag
+▶️ Play
+◄ ► Frecce
+⏸️ Pausa
+⚡ Fulmine/Turbo
+📏 Righello/Distanza
+⏱️ Cronometro
+⛽ Benzina
+🏆 Trofeo
+💥 Esplosione
+👤 Persona
+🏎️ Kart
+🎮 Controlli
+🚀 Start
+💨 Speed
+
 ## 🎯 Gameplay Mechanics
 
 ### Sistema Carburante
