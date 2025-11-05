@@ -117,19 +117,29 @@ gokart-arcade/
 ## Tutte le icone sostituite con emoji e caratteri speciali:
 🏁 Flag
 ▶️ Play
-◄ ► Frecce
 ⏸️ Pausa
+◄ ► Frecce
 ⚡ Fulmine/Turbo
 📏 Righello/Distanza
 ⏱️ Cronometro
 ⛽ Benzina
 🏆 Trofeo
 💥 Esplosione
+🚦 Start
+🏁 Finish
 👤 Persona
 🏎️ Kart
 🎮 Controlli
 🚀 Start
 💨 Speed
+🎧 Audio
+🔈 Audio ON
+🎶 Songs
+🎵 Music
+🔇 Audio OFF
+🧩 Component
+👍 Ok
+✅ Valid
 
 ## 🎯 Gameplay Mechanics
 

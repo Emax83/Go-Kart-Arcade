@@ -47,7 +47,8 @@
     <meta name="twitter:title" content="Go-Kart Arcade - Gioco di Corse Retrò">
     <meta name="twitter:description" content="Gioco arcade di corse go-kart in stile anni '80. Evita gli ostacoli, raccogli carburante e batti il tuo record!">
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">-->
+
     <style>
         * {
             box-sizing: border-box;
@@ -230,6 +231,11 @@
             z-index: 10;
         }
 
+        .player-info{
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
         .game-stats {
             display: flex;
             justify-content: space-between;
@@ -242,7 +248,9 @@
             padding: 15px;
             border: 3px solid #fff;
             border-radius: 8px;
-            max-width: 30%;
+            max-width: 40%;
+            width: 40%;
+            display: inline-block;
         }
 
         .fuel-label {
@@ -334,10 +342,12 @@
         #turbo-btn {
             background: rgba(255, 0, 0, 0.3);
             border-color: #ff0000;
-            width: 120px;
-            height: 120px;
-            font-size: 4rem;
             animation: turbo-pulse 1s infinite;
+        }
+
+        #pause-btn {
+            background: rgba(255, 255, 0, 0.8);
+            border-color: #7e6b00;
         }
 
         @keyframes turbo-pulse {
@@ -374,20 +384,7 @@
             margin-right: 1rem;
         }
 
-        .btn-pause {
-            position: absolute;
-            top: 20%;
-            right: 20px;
-            padding: 10px 20px;
-            font-size: 1.3rem;
-            background: rgba(255, 255, 0, 0.8);
-            border: 3px solid #fff;
-            color: #000;
-            cursor: pointer;
-            font-weight: bold;
-            z-index: 20;
-            text-transform: uppercase;
-        }
+        
 
         .btn-pause:hover {
             background: rgba(255, 255, 0, 1);
@@ -488,24 +485,100 @@
             z-index: 10;
         }
 
+        .audio-controls{
+            font-size: 2rem;
+            display: inline-block;
+        }
+
+        .music-btn{
+            border: solid 3px #fff;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 1rem 1rem;
+        }
+
+        .music-btn.active {
+            background: #00c000;
+        }
+
+        .audio-btn {
+            border: solid 3px #fff;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 1rem 1rem;
+        }
+
+        .audio-btn.active {
+            background: #00c000;
+        }
+
+        #smallScreenModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    z-index: 9999;
+    text-align: center;
+    padding: 20px;
+  }
+
+  #smallScreenModal .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #222;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 90%;
+  }
+
+  #smallScreenModal button {
+    margin-top: 20px;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff0000;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  i{
+    text-decoration: none;
+    font-style: normal;
+  }
+
     </style>
 </head>
 <body>
     <!-- SCHERMATA BENVENUTO -->
     <div id="welcome" class="screen active">
         <div class="title">
-            <i class="bi bi-flag-fill"></i> GO-KART<br>ARCADE
+            <i class="icon">🏁</i> GO-KART<br>ARCADE
         </div>
         <button class="btn-start" onclick="showScreen('kart-select')">
-            <i class="bi bi-play-fill"></i> START
+            <i class="icon">▶️</i> START
         </button>
         <div id="best-record" style="margin-top: 2rem; font-size: 1.5rem; color: #00ff00;"></div>
     </div>
 
     <!-- SELEZIONE KART -->
     <div id="kart-select" class="screen">
-        <h2><i class="bi bi-cart-fill"></i> Scegli il tuo Kart</h2>
+        <h2><i class="icon">🏎️</i> Scegli il tuo Kart</h2>
         <div class="kart-grid">
+            <!--
             <div class="kart-option" data-kart="red" onclick="selectKart('red', '#ff0000', '1')">
                 <div class="kart-preview" style="color: #ff0000;">
                     <img src="images/gokart-red.png" alt="ROSSO #1" title="ROSSO #1" class="img-kart">
@@ -542,21 +615,23 @@
                 </div>
                 <div>ARANCIO #6</div>
             </div>
+            -->
         </div>
         <div class="div-navigation">
             <button class="btn-back" onclick="showScreen('welcome')">
-                <i class="bi bi-arrow-left"></i> INDIETRO
+                <i class="icon">◄</i> BACK
             </button>
             <button class="btn-next" id="kart-next" disabled onclick="showScreen('driver-select')">
-                AVANTI <i class="bi bi-arrow-right"></i>
+                NEXT <i class="icon">►</i>
             </button>
         </div>
     </div>
 
     <!-- SELEZIONE PILOTA -->
     <div id="driver-select" class="screen">
-        <h2><i class="bi bi-person-fill"></i> Scegli il Pilota</h2>
+        <h2><i class="icon">👤</i> Scegli il Pilota</h2>
         <div class="driver-list">
+            <!--
             <div class="driver-option" data-driver="1" onclick="selectDriver('1','SPEEDY SAM')">
                 <img title="SPEEDY SAM" alt="SPEEDY SAM" class="img-helmet" src="images/helmet-white.png" >
                 <span>SPEEDY SAM</span>
@@ -581,13 +656,14 @@
                 <img title="ZISORINO" alt="ZISORINO" class="img-helmet" src="images/helmet-green.png" >
                 <span>ZISORINO</span>
             </div>
+            -->
         </div>
         <div class="div-navigation">
             <button class="btn-back" onclick="showScreen('kart-select')">
-                <i class="bi bi-arrow-left"></i> INDIETRO
+                <i class="icon">◄</i> BACK
             </button>
             <button class="btn-next" id="driver-next" disabled onclick="startGame()">
-                VAI! <i class="bi bi-flag-fill"></i>
+                GO GO GO! <i class="icon">🏁</i>
             </button>
         </div>
     </div>
@@ -595,18 +671,19 @@
     <!-- GIOCO -->
     <div id="game" class="screen">
         <canvas id="game-canvas"></canvas>
-        <button class="btn-pause" onclick="togglePause()">
-            <i class="bi bi-pause-fill"></i> PAUSA
-        </button>
+        
         <div class="game-ui">
+            <div id="player-info" class="player-info"></div>
+
             <div class="game-stats">
-                <div>📏 DISTANZA: <span id="distance">0</span>m</div>
-                <div>⚡ VELOCITÀ: <span id="speed">0</span> km/h</div>
+                <div class="stat-item"><i class="icon">📏</i> DISTANZA: <span id="distance">0</span>m</div>
+                <div class="stat-item"><i class="icon">⏱️</i> TEMPO: <span id="time">0:00</span></div>
+                <div class="stat-item"><i class="icon">⚡</i> VELOCITÀ: <span id="speed">0</span> km/h</div>
             </div>
-            <div id="player-info" style="font-size: 1.6rem; margin-bottom: 10px;"></div>
+
             <div class="fuel-container">
                 <div class="fuel-label">
-                    <span><i class="bi bi-fuel-pump-fill"></i> CARBURANTE</span>
+                    <span><i class="icon">⛽</i> FUEL</span>
                     <span id="fuel-amount">10.0L</span>
                 </div>
                 <div class="fuel-progress">
@@ -614,37 +691,66 @@
                     <div class="fuel-text" id="fuel-percent">100%</div>
                 </div>
             </div>
+
+            <div class="audio-controls">
+                <button id="audioToggle" class="audio-btn" onclick="toggleAudio()"><i class="icon">🔊</i> Audio</button>
+                <button class="music-btn" onclick="changeMusic(0)"><i class="icon"></i>🎵</i> Music 1</button>
+                <button class="music-btn" onclick="changeMusic(1)"><i class="icon"></i>🎵</i> Music 2</button>
+            </div>
         </div>
         <div class="controls">
             <button class="control-btn" id="left-btn">
-                <i class="bi bi-chevron-left"></i>
+                <i class="icon">◄</i>
             </button>
             <button class="control-btn" id="turbo-btn">
-                <i class="bi bi-lightning-charge-fill"></i>
+                <i class="icon">⚡</i>
+            </button>
+            <div>
+                &nbsp;
+            </div>
+            <button class="control-btn" id="pause-btn">
+                <i class="icon">⏸️</i>
             </button>
             <button class="control-btn" id="right-btn">
-                <i class="bi bi-chevron-right"></i>
+                <i class="icon">►</i>
             </button>
         </div>
     </div>
 
     <!-- MODALE PAUSA -->
     <div id="pause-modal" class="pause-modal">
-        <h2><i class="bi bi-pause-circle-fill"></i> PAUSA</h2>
+        <h2><i class="icon">⏸️</i> PAUSA</h2>
         <div class="record-display">
-            🏆 RECORD: <span id="pause-record">0</span>m
+            <i class="icon">🏆</i> RECORD: <span id="pause-record">0</span>m | <i class="icon">⏱️</i> <span id="pause-time-record">0:00</span>
         </div>
         <div class="pause-buttons">
             <button class="pause-btn pause-btn-resume" onclick="togglePause()">
-                <i class="bi bi-play-fill"></i> RIPRENDI
+                <i class="icon">▶️</i> RIPRENDI
             </button>
             <button class="pause-btn pause-btn-exit" onclick="exitToMenu()">
-                <i class="bi bi-box-arrow-left"></i> ESCI
+                <i class="icon">🏁</i> ESCI
             </button>
         </div>
     </div>
 
+    <div id="smallScreenModal">
+        <div class="modal-content">
+            <h2><i class="icon">⚠️</i> Schermo troppo piccolo</h2>
+            <p>Questo gioco non è ottimizzato per dispositivi mobili.  
+            Ti consigliamo di usare un tablet o un computer per un’esperienza migliore.</p>
+            <button onclick="closeModal()">Ho capito</button>
+        </div>
+    </div>
+
     <script>
+
+
+        window.addEventListener('load', () => {
+            if (checkScreenSize()) {
+                //startGame();
+            }
+        });
+
         // STATE
         const gameState = {
             selectedKart: null,
@@ -656,42 +762,106 @@
 
         // CARATTERISTICHE KART
         const kartSpecs = {
-            'red': { maxSpeed: 145, name: 'ROSSO #1', kart: '/images/gokart-white.png' },
-            'blue': { maxSpeed: 160, name: 'BLU #2', kart: '/images/gokart-white.png' },
-            'yellow': { maxSpeed: 130, name: 'GIALLO #3', kart: '/images/gokart-white.png' },
-            'green': { maxSpeed: 155, name: 'VERDE #4', kart: '/images/gokart-white.png' },
-            'purple': { maxSpeed: 120, name: 'VIOLA #5', kart: '/images/gokart-white.png' },
-            'orange': { maxSpeed: 140, name: 'ARANCIO #6', kart: '/images/gokart-white.png' }
+            'red': { maxSpeed: 145, name: 'ROSSO #1', color:'red', kart: '/images/gokart-red.png' },
+            'blue': { maxSpeed: 160, name: 'BLU #2', color:'blue', kart: '/images/gokart-blue.png' },
+            'yellow': { maxSpeed: 130, name: 'GIALLO #3', color:'yellow', kart: '/images/gokart-yellow.png' },
+            'green': { maxSpeed: 155, name: 'VERDE #4', color:'green', kart: '/images/gokart-green.png' },
+            'purple': { maxSpeed: 120, name: 'VIOLA #5', color:'purple', kart: '/images/gokart-purple.png' },
+            'orange': { maxSpeed: 140, name: 'ARANCIO #6', color:'orange', kart: '/images/gokart-orange.png' }
         };
 
         const drivers = {
-            1: { name: 'SPEEDY SAM', helmet: '/images/helmet-white.png' },
-            2: { name: 'FLASH FRED', helmet: '/images/helmet-white.png' },
-            3: { name: 'ROCKET ROSA', helmet: '/images/helmet-white.png' },
-            4: { name: 'TURBO ADRI', helmet: '/images/helmet-white.png' },
-            5: { name: 'CATICOLL', helmet: '/images/helmet-white.png' },
+            1: { name: 'SPEEDY SAM', helmet: '/images/helmet-green.png' },
+            2: { name: 'FLASH FRED', helmet: '/images/helmet-red.png' },
+            3: { name: 'ROCKET ROSA', helmet: '/images/helmet-pink.png' },
+            4: { name: 'TURBO ADRI', helmet: '/images/helmet-blue.png' },
+            5: { name: 'CATICOLL', helmet: '/images/helmet-yellow.png' },
             6: { name: 'ZISORINO', helmet: '/images/helmet-white.png' }
+        }
+
+        const kartGrid = document.querySelector('.kart-grid');
+        kartGrid.innerHTML="";
+        function fillKartList(){
+            // Popola la lista dei kart
+            Object.entries(kartSpecs).forEach(([key, kart], i) => {
+                const div = document.createElement('div');
+                div.className = 'kart-option';
+                div.dataset.kart = key;
+                div.onclick = () => selectKart(key, kart.color, i + 1);
+                div.innerHTML = `
+                    <div class="kart-preview" style="color:${kart.color}">
+                        <img src="${kart.kart}" alt="${kart.name}" title="${kart.name}" class="img-kart">
+                    </div>
+                    <div>${kart.name}</div>
+                `;
+                kartGrid.appendChild(div);
+            });
+        }
+
+        const driverList = document.querySelector('.driver-list');
+        driverList.innerHTML="";
+        function fillDriversList(){
+        // Popola la lista dei piloti
+            Object.entries(drivers).forEach(([id, driver]) => {
+                const div = document.createElement('div');
+                div.className = 'driver-option';
+                div.dataset.driver = id;
+                div.onclick = () => selectDriver(id, driver.name);
+                div.innerHTML = `
+                    <img title="${driver.name}" alt="${driver.name}" class="img-helmet" src="${driver.helmet}">
+                    <span>${driver.name}</span>
+                `;
+                driverList.appendChild(div);
+            });
+        }
+
+        function checkScreenSize() {
+            const minWidth = 600;  // puoi adattare
+            const minHeight = 400;
+
+            if (window.innerWidth < minWidth || window.innerHeight < minHeight) {
+                document.getElementById('smallScreenModal').style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+
+        function closeModal() {
+            document.getElementById('smallScreenModal').style.display = 'none';
         }
 
         // RECORD
         function getRecord() {
-            return parseInt(localStorage.getItem('gokart_record') || '0');
+            const recordData = localStorage.getItem('gokart_record');
+            if (recordData) {
+                return JSON.parse(recordData);
+            }
+            return { distance: 0, time: 0 };
         }
 
-        function saveRecord(distance) {
+         function saveRecord(distance, time) {
             const currentRecord = getRecord();
-            if (distance > currentRecord) {
-                localStorage.setItem('gokart_record', Math.floor(distance).toString());
-                return true;
+            let updated = false;
+            
+            if (distance > currentRecord.distance) {
+                localStorage.setItem('gokart_record', JSON.stringify({ distance: Math.floor(distance), time: time }));
+                updated = true;
             }
-            return false;
+            
+            return updated;
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
 
         function displayRecord() {
             const record = getRecord();
             const bestRecordEl = document.getElementById('best-record');
-            if (record > 0) {
-                bestRecordEl.textContent = `🏆 RECORD: ${record}m`;
+            if (record.distance > 0) {
+                bestRecordEl.textContent = `🏆 RECORD: ${record.distance}m | ⏱️ ${formatTime(record.time)}`;
             }
         }
 
@@ -704,6 +874,8 @@
                 displayRecord();
             }
         }
+
+
 
         // SELEZIONE KART
         function selectKart(id, color, number) {
@@ -729,6 +901,8 @@
         // AVVIO GIOCO
         function startGame() {
             showScreen('game');
+            playSound('start');
+            //mostra bottone pausa
             document.getElementById('player-info').textContent = 
                 `${gameState.selectedDriver} - KART #${gameState.kartNumber}`;
             initGame();
@@ -755,6 +929,9 @@
         let crashed = false;
         let paused = false;
         let animationId = null;
+        let gameTime = 0;
+        let gameStartTime = 0;
+        
 
         function initGame() {
             canvas = document.getElementById('game-canvas');
@@ -784,11 +961,14 @@
             crashed = false;
             paused = false;
             turboBoostY = 0;
+            gameTime = 0;
+            gameStartTime = Date.now();
 
             // CONTROLLI
             const leftBtn = document.getElementById('left-btn');
             const rightBtn = document.getElementById('right-btn');
             const turboBtn = document.getElementById('turbo-btn');
+            const pauseBtn = document.getElementById('pause-btn');
 
             leftBtn.addEventListener('mousedown', () => leftPressed = true);
             leftBtn.addEventListener('mouseup', () => leftPressed = false);
@@ -830,6 +1010,12 @@
                 activateTurbo(); 
             });
 
+            pauseBtn.addEventListener('click', togglePause);
+            pauseBtn.addEventListener('touchstart', (e) => { 
+                e.preventDefault(); 
+                togglePause(); 
+            });
+
             // TASTIERA
             document.addEventListener('keydown', handleKeyDown);
             document.addEventListener('keyup', handleKeyUp);
@@ -864,6 +1050,11 @@
                     turboBoostY = 0;
                     turboActive = false;
                     fuel = fuel - 1;
+
+                    if (fuel <= 0) {
+                        endGame();
+                    }
+
                 }, 2000);
             }
         }
@@ -886,8 +1077,13 @@
             modal.classList.toggle('active');
             
             if (paused) {
-                saveRecord(distance);
-                document.getElementById('pause-record').textContent = getRecord();
+                saveRecord(distance, gameTime);
+                const record = getRecord();
+                document.getElementById('pause-record').textContent =  Math.floor(record.distance || distance);
+                document.getElementById('pause-time-record').textContent = formatTime(record.time || gameTime);
+            } else {
+                // Riprendi il timer
+                gameStartTime = Date.now() - (gameTime * 1000);
             }
         }
 
@@ -908,6 +1104,10 @@
 
         function update() {
             if (gameOver) return;
+
+            // AGGIORNA TIMER
+            gameTime = (Date.now() - gameStartTime) / 1000;
+            document.getElementById('time').textContent = formatTime(gameTime);
 
             const roadWidth = canvas.width * 0.6;
             const roadX = (canvas.width - roadWidth) / 2;
@@ -1009,6 +1209,7 @@
                 if (Math.abs(can.x - kart.x) < 40 && Math.abs(can.y - (kart.y + turboBoostY)) < 60) {
                     fuel = Math.min(maxFuel, fuel + 1);
                     fuelCans.splice(index, 1);
+                    playSound('fuel');
                 }
 
                 if (can.y > canvas.height) {
@@ -1023,7 +1224,8 @@
                     if (!crashed) {
                         crashed = true;
                         fuel = Math.max(0, fuel - 1);
-                        
+                        playSound('collision');
+
                         if (fuel <= 0) {
                             endGame();
                         }
@@ -1032,7 +1234,7 @@
                         
                         setTimeout(() => {
                             crashed = false;
-                        }, 2000);
+                        }, 1000);
                     }
                 }
 
@@ -1047,9 +1249,14 @@
         }
 
         function endGame() {
+            playSound('finish');
             gameOver = true;
             speed = 0;
-            const isNewRecord = saveRecord(distance);
+            
+            const isNewRecord = saveRecord(distance, gameTime);
+            if(isNewRecord){
+                playSound('victory');
+            }
         }
 
         function updateFuelUI() {
@@ -1057,6 +1264,65 @@
             document.getElementById('fuel-bar').style.width = fuelPercent + '%';
             document.getElementById('fuel-amount').textContent = fuel.toFixed(1) + 'L';
             document.getElementById('fuel-percent').textContent = Math.floor(fuelPercent) + '%';
+        }
+
+        let audioEnabled = false;
+        let bgMusic = null;
+        // Suoni di gioco
+        const sounds = {
+            bgMusic01: new Audio('/sounds/music-01.wav'),
+            bgMusic02: new Audio('/sounds/music-02.wav'),
+            collision: new Audio('/sounds/collision.wav'),
+            fuel: new Audio('/sounds/fuel.wav'),
+            start: new Audio('/sounds/start.wav'),
+            finish: new Audio('/sounds/finish.wav'),
+            victory: new Audio('/sounds/victory.wav')
+        };
+        sounds.bgMusic01.loop = true;
+        sounds.bgMusic01.volume = 0.3;
+        sounds.bgMusic02.loop = true;
+        sounds.bgMusic02.volume = 0.3;
+
+        // Toggle musica
+        function toggleAudio() {
+            const btn = document.getElementById('audioToggle');
+            audioEnabled = !audioEnabled;
+            if(bgMusic == null){
+                bgMusic = sounds.bgMusic01;
+            }
+            if (audioEnabled) {
+                btn.classList.add('active');
+                btn.textContent = '🔈 Audio ON';
+                bgMusic.play().catch(() => {}); // play richiede interazione utente
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = '🔇 Audio OFF';
+                bgMusic.pause();
+            }
+        }
+
+        function changeMusic(index){
+
+            document.querySelectorAll('.music-btn').classList.remove('active');
+
+            document.querySelectorAll('.music-btn')[index].classList.add('active');
+
+            if(bgMusic){
+                bgMusic.pause();
+            }
+            bgMusic = sounds[index];
+            bgMusic.pause();
+            bgMusic.play().catch(() => {});
+        }
+
+        // Funzione per suoni specifici
+        function playSound(type) {
+        if (!audioEnabled) return;
+            const sound = sounds[type];
+            if (sound) {
+                sound.currentTime = 0; // reset per ripetere subito
+                sound.play().catch(() => {});
+            }
         }
 
         function draw() {
@@ -1189,6 +1455,9 @@
             });
 
             if (gameOver) {
+
+                // nascondi bottone pausa.
+
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
@@ -1202,16 +1471,17 @@
                 
                 ctx.fillStyle = '#fff';
                 ctx.font = 'bold 40px Arial';
-                ctx.fillText('Distanza: ' + Math.floor(distance) + 'm', canvas.width / 2, canvas.height / 2 - 20);
+                ctx.fillText('📏 Distanza: ' + Math.floor(distance) + 'm', canvas.width / 2, canvas.height / 2 - 40);
+                ctx.fillText('⏱️ Tempo: ' + formatTime(gameTime), canvas.width / 2, canvas.height / 2 + 10);
                 
                 if (isNewRecord) {
                     ctx.fillStyle = '#00ff00';
                     ctx.font = 'bold 50px Arial';
-                    ctx.fillText('🏆 NUOVO RECORD! 🏆', canvas.width / 2, canvas.height / 2 + 40);
+                    ctx.fillText('🏆 NUOVO RECORD! 🏆', canvas.width / 2, canvas.height / 2 + 70);
                 } else {
                     ctx.fillStyle = '#ffff00';
                     ctx.font = 'bold 35px Arial';
-                    ctx.fillText('Record: ' + record + 'm', canvas.width / 2, canvas.height / 2 + 40);
+                    ctx.fillText('🏆 Record: ' + record.distance + 'm | ⏱️ ' + formatTime(record.time), canvas.width / 2, canvas.height / 2 + 70);
                 }
                 
                 ctx.fillStyle = '#fff';
@@ -1243,6 +1513,9 @@
                 ctx.fillText('💥 COLLISIONE! -1L 💥', canvas.width / 2, 150);
             }
         }
+
+        fillDriversList();
+        fillKartList();
 
         // Inizializza display record
         displayRecord();
