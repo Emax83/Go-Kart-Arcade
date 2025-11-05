@@ -1,26 +1,26 @@
        window.addEventListener('load', () => {
-            fillDriversList();
-            fillKartList();
-            loadAudioSettings();
-            displayRecord();
-
             if (checkScreenSize()) {
                 //startGame();
             }
+
+            document.addEventListener('visibilitychange', () => {
+                if(gameTime > 0){ //sto giocando.
+                    toggleAudio();
+                }
+                /*
+                    if (document.hidden) {
+                        bgMusic.pause();
+                    } else {
+                        if(audioEnabled && bgMusic){
+                            bgMusic.play().catch((err) => {console.error('visibilityChanged.bgMusic.play', err);});
+                        }
+                    }
+                */
+            });
+
         });
 
-        document.addEventListener('visibilitychange', () => {
-            toggleAudio();
-            /*
-                if (document.hidden) {
-                    bgMusic.pause();
-                } else {
-                    if(audioEnabled && bgMusic){
-                        bgMusic.play().catch((err) => {console.error('visibilityChanged.bgMusic.play', err);});
-                    }
-                }
-            */
-        });
+        
 
         // STATE
         const gameState = {
@@ -384,7 +384,7 @@
                 // Riprendi il timer
                 gameStartTime = Date.now() - (gameTime * 1000);
                 if (audioEnabled && bgMusic && musicId > 0){
-                        bgMusic.play().catch((err) => { console.error('resumepause.bgmusic.play', err); });
+                    bgMusic.play().catch((err) => { console.error('resumepause.bgmusic.play', err); });
                 }
             }
         }
@@ -431,10 +431,10 @@
         }
 
         function exitToMenu() {
-            saveAudioSettings();
-            saveRecord();
-            location.reload();
-            /*
+
+            loadAudioSettings();
+            displayRecord();
+
             if (animationId) {
                 cancelAnimationFrame(animationId);
             }
@@ -448,7 +448,6 @@
             document.querySelectorAll('.driver-option').forEach(d => d.classList.remove('selected'));
             document.getElementById('kart-next').disabled = true;
             document.getElementById('driver-next').disabled = true;
-            */
         }
 
         function update() {
@@ -933,3 +932,7 @@
         }
 
         
+    fillDriversList();
+    fillKartList();
+    loadAudioSettings();
+    displayRecord();
