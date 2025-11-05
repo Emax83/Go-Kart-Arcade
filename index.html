@@ -872,7 +872,19 @@
         function getRecord() {
             const recordData = localStorage.getItem('gokart_record');
             if (recordData) {
-                return JSON.parse(recordData);
+                try {
+                    const record = JSON.parse(recordData);
+                    if (
+                        typeof record === 'object' &&
+                        record !== null &&
+                        typeof record.distance === 'number' &&
+                        typeof record.time === 'number'
+                    ) {
+                        return record;
+                    }
+                } catch (e) {
+                    console.warn('Record corrotto, resetto:', e);
+                }
             }
             return { distance: 0, time: 0 };
         }
@@ -1105,9 +1117,9 @@
 
             } else if (gameOver) {
                 console.log("GAME OVER detected in loop");
-                //draw();
+                cancelAnimationFrame(animationId); //ferma il ciclo
+                draw();
                 endGame();
-                cancelAnimationFrame(animationId); // 🔴 ferma il ciclo
                 return;
             }
         }
@@ -1335,7 +1347,7 @@
             console.log("GAME OVER - mostro modal");
 
             setTimeout(() => {
-                showModalGameOver(distance, gameTime, getRecord());
+                showModalGameOver();
 
                 playSound('finish');
 
@@ -1651,7 +1663,7 @@
         fillKartList();
         loadAudioSettings();
         displayRecord();
-        
+
     </script>
 </body>
 </html>
