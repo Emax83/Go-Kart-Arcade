@@ -1357,8 +1357,8 @@
         let bgMusic = null;
         // Suoni di gioco
         const sounds = {
-            bgMusic01: new Audio('/sounds/music-01.wav'),
-            bgMusic02: new Audio('/sounds/music-02.wav'),
+            bgMusic01: new Audio('/sounds/music-01.mp3'),
+            bgMusic02: new Audio('/sounds/music-02.mp3'),
             collision: new Audio('/sounds/collision.wav'),
             fuel: new Audio('/sounds/fuel.wav'),
             start: new Audio('/sounds/start.wav'),
@@ -1380,7 +1380,7 @@
             if (audioEnabled) {
                 btn.classList.add('active');
                 btn.textContent = '🔈 Audio ON';
-                bgMusic.play().catch(() => {}); // play richiede interazione utente
+                bgMusic.play().catch((err) => { console.error("toggleAudio.bgMusic.play", err); }); // play richiede interazione utente
             } else {
                 btn.classList.remove('active');
                 btn.textContent = '🔇 Audio OFF';
