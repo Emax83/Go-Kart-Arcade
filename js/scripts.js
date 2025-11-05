@@ -431,6 +431,8 @@
         }
 
         function exitToMenu() {
+            saveAudioSettings();
+            saveRecord();
             location.reload();
             /*
             if (animationId) {
