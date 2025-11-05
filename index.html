@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     
     <!-- SEO Meta Tags -->
     <title>Go-Kart Arcade - Gioco di Corse Retrò</title>
@@ -468,23 +468,7 @@
             width: 100%;
         }
 
-        .btn-restart {
-            position: absolute;
-            left: 50%;
-            top: 70%;
-            transform: translate(-50%, -50%);
-            padding: 15px 30px;
-            font-size: 2rem;
-            font-weight: bold;
-            border-radius: 12px;
-            background-color: #ff0000;
-            color: #fff;
-            border: solid 2px #fbff00;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-            z-index: 10;
-        }
-
+        
         .audio-controls{
             font-size: 2rem;
             display: inline-block;
@@ -559,6 +543,50 @@
     text-decoration: none;
     font-style: normal;
   }
+  
+  .gameover-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 2rem;
+  display: none;
+}
+
+.gameover-modal.active {
+  display: block !important;
+}
+
+.gameover-content {
+  background: rgba(20, 20, 20, 0.9);
+  border: 2px solid #ff0000;
+  border-radius: 15px;
+  padding: 3rem;
+  box-shadow: 0 0 20px #ff0000;
+  font-size: 1.2rem;
+}
+
+.btn-restart {
+  margin-top: 25px;
+  padding: 12px 24px;
+  background: #ff0000;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-restart:hover {
+  background: #ff4444;
+  transform: scale(1.05);
+}
 
     </style>
 </head>
@@ -694,8 +722,8 @@
 
             <div class="audio-controls">
                 <button id="audioToggle" class="audio-btn" onclick="toggleAudio()"><i class="icon">🔊</i> Audio</button>
-                <button class="music-btn" onclick="changeMusic(0)"><i class="icon"></i>🎵</i> Music 1</button>
-                <button class="music-btn" onclick="changeMusic(1)"><i class="icon"></i>🎵</i> Music 2</button>
+                <button class="music-btn" onclick="changeMusic(1)"><i class="icon"></i>🎵</i> Music 1</button>
+                <button class="music-btn" onclick="changeMusic(2)"><i class="icon"></i>🎵</i> Music 2</button>
             </div>
         </div>
         <div class="controls">
@@ -731,6 +759,16 @@
                 <i class="icon">🏁</i> ESCI
             </button>
         </div>
+    </div>
+
+    <div id="gameover-modal" class="gameover-modal hidden">
+    <div class="gameover-content">
+        <h3>💀 GAME OVER</h3>
+        <p id="gameover-distance"></p>
+        <p id="gameover-time"></p>
+        <p id="gameover-record"></p>
+        <button id="retryButton" class="btn-restart">🎮 Gioca di nuovo</button>
+    </div>
     </div>
 
     <div id="smallScreenModal">
@@ -1063,10 +1101,15 @@
             if (!paused && !gameOver) {
                 update();
                 draw();
+                animationId = requestAnimationFrame(gameLoop);
+
             } else if (gameOver) {
-                draw();
+                console.log("GAME OVER detected in loop");
+                //draw();
+                endGame();
+                cancelAnimationFrame(animationId); // 🔴 ferma il ciclo
+                return;
             }
-            animationId = requestAnimationFrame(gameLoop);
         }
 
         function togglePause() {
@@ -1085,6 +1128,38 @@
                 // Riprendi il timer
                 gameStartTime = Date.now() - (gameTime * 1000);
             }
+        }
+
+        function showModalGameOver() {
+            console.log('showModalGameOver');
+            const modal = document.getElementById('gameover-modal');
+            modal.classList.add('active');
+            modal.classList.remove('hidden');
+
+            const record = getRecord();
+            const isNewRecord = Math.floor(distance) >= record.distance;
+
+            const distEl = document.getElementById('gameover-distance');
+            const timeEl = document.getElementById('gameover-time');
+            const recordEl = document.getElementById('gameover-record');
+
+            distEl.textContent = `📏 Distanza: ${Math.floor(distance)}m`;
+            timeEl.textContent = `⏱️ Tempo: ${formatTime(gameTime)}`;
+
+            if (isNewRecord) {
+                recordEl.innerHTML = `<span style="color:#00ff00; font-size:1.3em;">🏆 NUOVO RECORD! 🏆</span>`;
+            } else {
+                recordEl.innerHTML = `🏆 Record: ${record.distance}m | ⏱️ ${formatTime(record.time)}`;
+            }
+
+            modal.classList.remove('hidden');
+
+            const retryButton = document.getElementById('retryButton');
+            retryButton.onclick = () => {
+                modal.classList.add('hidden');
+                modal.classList.remove('active');
+                exitToMenu();
+            };
         }
 
         function exitToMenu() {
@@ -1249,14 +1324,26 @@
         }
 
         function endGame() {
-            playSound('finish');
+            console.log("endGame");
+            if (gameOver) return; // evita doppie chiamate
             gameOver = true;
             speed = 0;
-            
-            const isNewRecord = saveRecord(distance, gameTime);
-            if(isNewRecord){
-                playSound('victory');
-            }
+
+            cancelAnimationFrame(animationId);
+            console.log("GAME OVER - mostro modal");
+
+            setTimeout(() => {
+                showModalGameOver(distance, gameTime, getRecord());
+
+                playSound('finish');
+
+                const isNewRecord = saveRecord(distance, gameTime);
+
+                if(isNewRecord){
+                    playSound('victory');
+                }
+
+            }, 100); // piccolo delay per uscire dal frame corrente
         }
 
         function updateFuelUI() {
@@ -1302,17 +1389,37 @@
         }
 
         function changeMusic(index){
+            // Rimuove la classe 'active' da tutti i pulsanti
+            document.querySelectorAll('.music-btn').forEach(btn => btn.classList.remove('active'));
 
-            document.querySelectorAll('.music-btn').classList.remove('active');
+            // Aggiunge 'active' solo al pulsante selezionato
+            const selectedBtn = document.querySelectorAll('.music-btn')[index-1];
+            if (selectedBtn) selectedBtn.classList.add('active');
 
-            document.querySelectorAll('.music-btn')[index].classList.add('active');
-
-            if(bgMusic){
+            // Ferma la musica precedente
+            if (bgMusic) {
                 bgMusic.pause();
+                bgMusic.currentTime = 0; // opzionale: resetta all’inizio
             }
-            bgMusic = sounds[index];
-            bgMusic.pause();
-            bgMusic.play().catch(() => {});
+
+            // Imposta e riproduce la nuova musica
+            switch(index){
+                case 1:
+                    bgMusic = sounds.bgMusic01;
+                    break;
+                case 2:
+                    bgMusic = sounds.bgMusic02;
+                    break;
+                default:
+                    bgMusic = sounds.bgMusic01;
+                    break;
+            }
+            
+            if (bgMusic) {
+                bgMusic.volume = 0.5;
+                bgMusic.loop = true;
+                bgMusic.play().catch((err) => { console.error('changeMusic.bgMusic.play',err); });
+            }
         }
 
         // Funzione per suoni specifici
@@ -1321,11 +1428,13 @@
             const sound = sounds[type];
             if (sound) {
                 sound.currentTime = 0; // reset per ripetere subito
-                sound.play().catch(() => {});
+                sound.play().catch((err) => {console.error('Error playing sound: ',err)});
             }
         }
 
         function draw() {
+            if (gameOver) return;
+
             ctx.fillStyle = '#1a4d1a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -1454,10 +1563,19 @@
                 }
             });
 
+            if (crashed) {
+                ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#ff0000';
+                ctx.font = 'bold 50px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('💥 COLLISIONE! -1L 💥', canvas.width / 2, 150);
+            }
+
             if (gameOver) {
-
-                // nascondi bottone pausa.
-
+                console.log("draw.gameOver");
+                /*
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
@@ -1500,17 +1618,7 @@
                     };
                     document.body.appendChild(btn);
                 }
-
-            }
-
-            if (crashed) {
-                ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                ctx.fillStyle = '#ff0000';
-                ctx.font = 'bold 50px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText('💥 COLLISIONE! -1L 💥', canvas.width / 2, 150);
+                */
             }
         }
 
