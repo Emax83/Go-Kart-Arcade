@@ -1,4 +1,9 @@
        window.addEventListener('load', () => {
+            fillDriversList();
+            fillKartList();
+            loadAudioSettings();
+            displayRecord();
+
             if (checkScreenSize()) {
                 //startGame();
             }
@@ -917,7 +922,4 @@
             }
         }
 
-        fillDriversList();
-        fillKartList();
-        loadAudioSettings();
-        displayRecord();
+        
