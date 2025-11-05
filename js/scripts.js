@@ -371,11 +371,14 @@
                 const record = getRecord();
                 document.getElementById('pause-record').textContent = record.distance;
                 document.getElementById('pause-time-record').textContent = formatTime(record.time);
-                bgMusic.pause();
+                if(bgMusic){
+                    bgMusic.pause();
+                }
+                
             } else {
                 // Riprendi il timer
                 gameStartTime = Date.now() - (gameTime * 1000);
-                if (audioEnabled){
+                if (audioEnabled && bgMusic && musicId > 0){
                         bgMusic.play().catch((err) => { console.error('resumepause.bgmusic.play', err); });
                 }
             }
@@ -387,7 +390,9 @@
             modal.classList.add('active');
             modal.classList.remove('hidden');
             playSound('finish');
-            bgMusic.pause();
+            if(bgMusic){
+                    bgMusic.pause();
+            }
                
 
             paused = false;
@@ -630,29 +635,25 @@
             if (audioEnabled) {
                 btn.classList.add('active');
                 btn.textContent = '🔊 Audio ON';
-                if(musicId > 0) {
-                    changeMusic(musicId);
-                }
-                bgMusic.play().catch((err) => { console.error("toggleAudio.bgMusic.play", err); }); // play richiede interazione utente
+                changeMusic(musicId);
+
             } else {
                 btn.classList.remove('active');
                 btn.textContent = '🔇 Audio OFF';
                 bgMusic.pause();
+
             }
+            
             saveAudioSettings();
         }
 
         function changeMusic(index){
 
-            if(musicId == index){
-                index = 0;
-            }
-
             // Rimuove la classe 'active' da tutti i pulsanti
             document.querySelectorAll('.music-btn').forEach(btn => btn.classList.remove('active'));
 
             // Aggiunge 'active' solo al pulsante selezionato
-            const selectedBtn = document.querySelectorAll('.music-btn')[index-1];
+            const selectedBtn = document.querySelectorAll('.music-btn')[index];
             if (selectedBtn) selectedBtn.classList.add('active');
 
             // Ferma la musica precedente
@@ -676,7 +677,7 @@
 
             musicId = index;
 
-            if (musicId > 0) {
+            if (musicId > 0 && bgMusic) {
                 bgMusic.volume = 0.5;
                 bgMusic.loop = true;
                 bgMusic.play().catch((err) => { console.error('changeMusic.bgMusic.play',err); });
@@ -690,8 +691,6 @@
                 const btn = document.getElementById('audioToggle');
                 btn.classList.add('active');
                 btn.textContent = '🔊 Audio ON';
-            }
-            if(audioEnabled && musicId > 0){
                 changeMusic(musicId);
             }
         }
