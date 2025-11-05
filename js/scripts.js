@@ -423,7 +423,7 @@
 
         function exitToMenu() {
 
-            loadAudioSettings();
+            //loadAudioSettings();
             displayRecord();
 
             if (animationId) {
