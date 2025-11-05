@@ -628,6 +628,11 @@
         sounds.bgMusic02.loop = true;
         sounds.bgMusic02.volume = 0.3;
 
+       // precarico i sounds
+       Object.values(sounds).forEach(sound => {
+           sound.load();
+       });
+
         // Toggle musica
         function toggleAudio() {
             const btn = document.getElementById('audioToggle');
