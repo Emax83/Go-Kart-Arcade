@@ -1,8 +1,18 @@
-window.addEventListener('load', () => {
+       window.addEventListener('load', () => {
             if (checkScreenSize()) {
                 //startGame();
             }
         });
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && bgMusic) {
+    bgMusic.pause();
+  } else {
+    if(audioEnabled && bgMusic){
+        bgMusic.play().catch((err) => {console.error('visibilityChanged.bgMusic.play', err);});
+    }
+  }
+});
 
         // STATE
         const gameState = {
@@ -346,9 +356,13 @@ window.addEventListener('load', () => {
                 const record = getRecord();
                 document.getElementById('pause-record').textContent = record.distance;
                 document.getElementById('pause-time-record').textContent = formatTime(record.time);
+                bgMusic.pause();
             } else {
                 // Riprendi il timer
                 gameStartTime = Date.now() - (gameTime * 1000);
+                if (audioEnabled){
+                        bgMusic.play().catch((err) => { console.error('resumepause.bgmusic.play', err); });
+                }
             }
         }
 
