@@ -367,7 +367,6 @@
             console.log('modalPause.active: ' + modal.classList.contains('active'));
 
             if (paused) {
-                cancelAnimationFrame(animationId);
                 saveRecord(distance, gameTime);
                 const record = getRecord();
                 document.getElementById('pause-record').textContent = record.distance;
@@ -379,7 +378,6 @@
                 if (audioEnabled){
                         bgMusic.play().catch((err) => { console.error('resumepause.bgmusic.play', err); });
                 }
-                animationId = requestAnimationFrame(gameLoop); // 🔥 riparte solo qui
             }
         }
 
@@ -645,6 +643,10 @@
         }
 
         function changeMusic(index){
+
+            if(musicId == index){
+                index = 0;
+            }
 
             // Rimuove la classe 'active' da tutti i pulsanti
             document.querySelectorAll('.music-btn').forEach(btn => btn.classList.remove('active'));
