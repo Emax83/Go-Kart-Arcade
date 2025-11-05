@@ -367,6 +367,7 @@
             console.log('modalPause.active: ' + modal.classList.contains('active'));
 
             if (paused) {
+                cancelAnimationFrame(animationId);
                 saveRecord(distance, gameTime);
                 const record = getRecord();
                 document.getElementById('pause-record').textContent = record.distance;
@@ -378,6 +379,7 @@
                 if (audioEnabled){
                         bgMusic.play().catch((err) => { console.error('resumepause.bgmusic.play', err); });
                 }
+                animationId = requestAnimationFrame(gameLoop); // 🔥 riparte solo qui
             }
         }
 
