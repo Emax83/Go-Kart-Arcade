@@ -357,7 +357,12 @@
 
             paused = !paused;
             const modal = document.getElementById('pause-modal');
-            modal.classList.toggle('active');
+            if(paused == true){
+                modal.classList.add('active');
+            }
+            else{
+                modal.classList.remove('active');
+            }
             
             console.log('modalPause.active: ' + modal.classList.contains('active'));
 
@@ -384,6 +389,10 @@
             playSound('finish');
             bgMusic.pause();
                
+
+            paused = false;
+            document.getElementById('pause-modal').classList.remove('active');
+
             const record = getRecord();
             const isNewRecord = Math.floor(distance) >= record.distance;
 
@@ -417,7 +426,8 @@
             }
             
             paused = false;
-            document.getElementById('pause-modal').classList.toggle('active');
+            document.getElementById('pause-modal').classList.remove('active');
+
             showScreen('kart-select');
             
             document.querySelectorAll('.kart-option').forEach(k => k.classList.remove('selected'));
