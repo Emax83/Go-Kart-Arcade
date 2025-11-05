@@ -2,20 +2,21 @@
             if (checkScreenSize()) {
                 //startGame();
             }
-           if(audioEnabled && bgMusic){
-              bgMusic.play().catch((err) => {console.error('visibilityChanged.bgMusic.play', err);});
-            }
+           toggleAudio();
         });
 
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden && bgMusic) {
-    bgMusic.pause();
-  } else {
-    if(audioEnabled && bgMusic){
-        bgMusic.play().catch((err) => {console.error('visibilityChanged.bgMusic.play', err);});
-    }
-  }
-});
+        document.addEventListener('visibilitychange', () => {
+            toggleAudio();
+            /*
+                if (document.hidden) {
+                    bgMusic.pause();
+                } else {
+                    if(audioEnabled && bgMusic){
+                        bgMusic.play().catch((err) => {console.error('visibilityChanged.bgMusic.play', err);});
+                    }
+                }
+            */
+        });
 
         // STATE
         const gameState = {
@@ -353,10 +354,14 @@ document.addEventListener('visibilitychange', () => {
         function togglePause() {
             if (gameOver) return;
             
+            console.log('togglePause.paused: ' + paused);
+
             paused = !paused;
             const modal = document.getElementById('pause-modal');
             modal.classList.toggle('active');
             
+            console.log('modalPause.active: ' + modal.classList.contains('active'));
+
             if (paused) {
                 saveRecord(distance, gameTime);
                 const record = getRecord();
@@ -413,7 +418,7 @@ document.addEventListener('visibilitychange', () => {
             }
             
             paused = false;
-            document.getElementById('pause-modal').classList.remove('active');
+            document.getElementById('pause-modal').classList.toggle('active');
             showScreen('kart-select');
             
             document.querySelectorAll('.kart-option').forEach(k => k.classList.remove('selected'));
