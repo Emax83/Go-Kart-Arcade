@@ -2,6 +2,9 @@
             if (checkScreenSize()) {
                 //startGame();
             }
+           if(audioEnabled && bgMusic){
+              bgMusic.play().catch((err) => {console.error('visibilityChanged.bgMusic.play', err);});
+            }
         });
 
 document.addEventListener('visibilitychange', () => {
