@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<!-- SEO Meta Tags -->
+<title>404 - Strada Chiusa | Go-Kart Arcade</title>
+<meta name="description" content="Pagina non trovata - Go-Kart Arcade">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- Theme & Appearance -->
+<meta name="theme-color" content="#1a0033">
+<meta name="color-scheme" content="dark">
+
+<!-- Favicon -->
+<link rel="icon" type="image/ico" href="/images/favicon.ico">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Courier New', monospace;
+        background: linear-gradient(180deg, #1a0033 0%, #000 100%);
+        color: #fff;
+        overflow: hidden;
+        text-transform: uppercase;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .error-container {
+        text-align: center;
+        padding: 2rem;
+        max-width: 800px;
+    }
+
+    .error-code {
+        font-size: 12rem;
+        font-weight: bold;
+        color: #ff0000;
+        text-shadow: 0 0 30px #ff0000, 0 0 60px #ff0000;
+        line-height: 1;
+        margin-bottom: 1rem;
+        animation: glow 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+        from { 
+            text-shadow: 0 0 30px #ff0000, 0 0 60px #ff0000;
+            transform: scale(1);
+        }
+        to { 
+            text-shadow: 0 0 50px #ff0000, 0 0 100px #ff0000;
+            transform: scale(1.05);
+        }
+    }
+
+    .warning-flags {
+        font-size: 6rem;
+        margin: 2rem 0;
+        animation: wave 1s ease-in-out infinite;
+    }
+
+    @keyframes wave {
+        0%, 100% { transform: rotate(-5deg); }
+        50% { transform: rotate(5deg); }
+    }
+
+    .error-title {
+        font-size: 3rem;
+        color: #ffff00;
+        text-shadow: 0 0 20px #ffff00;
+        margin-bottom: 1rem;
+    }
+
+    .error-message {
+        font-size: 1.8rem;
+        color: #fff;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+
+    .road-closed {
+        font-size: 2.5rem;
+        color: #ff6600;
+        margin: 2rem 0;
+        padding: 1rem 2rem;
+        border: 4px solid #ff6600;
+        background: rgba(255, 102, 0, 0.1);
+        display: inline-block;
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        0%, 49% { opacity: 1; }
+        50%, 100% { opacity: 0.3; }
+    }
+
+    .btn-return {
+        padding: 25px 60px;
+        font-size: 2rem;
+        background: #00ff00;
+        border: 4px solid #fff;
+        color: #000;
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 2rem;
+        transition: all 0.3s;
+        box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    }
+
+    .btn-return:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 40px rgba(0, 255, 0, 0.8);
+        background: #00ff00;
+    }
+
+    .btn-return:active {
+        transform: scale(1.05);
+    }
+
+    .decorative-elements {
+        margin: 2rem 0;
+        font-size: 2rem;
+        opacity: 0.5;
+    }
+
+    .error-details {
+        font-size: 1.2rem;
+        color: #999;
+        margin-top: 2rem;
+        font-style: italic;
+    }
+
+    /* Animazione di sfondo */
+    @keyframes gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    body {
+        background: linear-gradient(270deg, #1a0033, #330033, #000);
+        background-size: 400% 400%;
+        animation: gradient-shift 10s ease infinite;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .error-code {
+            font-size: 8rem;
+        }
+
+        .warning-flags {
+            font-size: 4rem;
+        }
+
+        .error-title {
+            font-size: 2rem;
+        }
+
+        .error-message {
+            font-size: 1.4rem;
+        }
+
+        .road-closed {
+            font-size: 1.8rem;
+            padding: 0.8rem 1.5rem;
+        }
+
+        .btn-return {
+            padding: 20px 40px;
+            font-size: 1.5rem;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">404</div>
+
+    <div class="warning-flags">
+        🚩 ⚠️ 🚩
+    </div>
+    
+    <div class="error-title">
+        STRADA NON TROVATA
+    </div>
+    
+    <div class="error-message">
+        Sembra che tu abbia preso<br>
+        una strada sbagliata!
+    </div>
+    
+    <div class="road-closed">
+        🚧 ROAD CLOSED 🚧
+    </div>
+    
+    <div class="decorative-elements">
+        🏎️ 💨 🏁
+    </div>
+    
+    <a href="/" class="btn-return">
+        🔙 RETURN TO BOX
+    </a>
+    
+    <div class="error-details">
+        La pagina che stai cercando non esiste<br>
+        o è stata spostata in un'altra pista
+    </div>
+</div>
+
+</body>
+</html>
