@@ -228,7 +228,7 @@
 
             kart.realX = roadX + laneWidth * 1.5;
             kart.x = kart.realX;
-            kart.y = canvas.height - 200;
+            kart.y = canvas.height - 180;
             
             // RESET VARIABILI
             fuel = 10;
