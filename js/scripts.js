@@ -4,7 +4,7 @@
             }
 
             document.addEventListener('visibilitychange', () => {
-                if(gameTime > 0){ //sto giocando.
+                if(gameTime > 0 && audioEnabled){ //sto giocando e avevo laudio attivo
                     toggleAudio();
                 }
                 /*
