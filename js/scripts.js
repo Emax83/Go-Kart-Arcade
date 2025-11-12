@@ -4,18 +4,14 @@
             }
 
             document.addEventListener('visibilitychange', () => {
-                if(gameTime > 0 && audioEnabled){ //sto giocando e avevo laudio attivo
-                    toggleAudio();
-                }
-                /*
                     if (document.hidden) {
                         bgMusic.pause();
                     } else {
-                        if(audioEnabled && bgMusic){
+                        if(audioEnabled && bgMusic && gameTime > 0){
                             bgMusic.play().catch((err) => {console.error('visibilityChanged.bgMusic.play', err);});
                         }
                     }
-                */
+                
             });
 
         });
