@@ -18,6 +18,7 @@
             color: #0f0;
             overflow: hidden;
             text-transform: uppercase;
+            background-color: #1a4d1a; /*stesso colore del bordo*/
         }
 
         .screen {
@@ -31,6 +32,11 @@
 
         .screen.active {
             display: flex;
+        }
+
+
+        .display-none{
+            display: none;
         }
 
         /* BENVENUTO */
@@ -193,6 +199,9 @@
             font-weight: bold;
             text-shadow: 3px 3px 6px #000, -1px -1px 2px #000;
             z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: stretch;
         }
 
         .player-info{
@@ -204,6 +213,7 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 15px;
+            flex-direction: row;
         }
 
         .fuel-container {
@@ -212,8 +222,8 @@
             padding: 15px;
             border: 3px solid #fff;
             border-radius: 8px;
-            max-width: 40%;
-            width: 40%;
+            max-width: 350px;
+            width: 100%;
             display: inline-block;
         }
 
@@ -288,9 +298,14 @@
             width: 100px;
             height: 100px;
             font-size: 3rem;
+            /*
             background: rgba(255, 255, 255, 0.2);
             border: 4px solid #fff;
             color: #fff;
+            */
+            background: #0033668e;
+            border: 4px solid #003366;
+            color: #003366;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -434,9 +449,19 @@
         }
 
         
-        .audio-controls{
-            font-size: 2rem;
-            display: inline-block;
+        .audio-controls {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            max-width: 90%;
+        }
+
+        .audio-controls > button{
+            white-space: nowrap;
+            text-align: center
         }
 
         .music-btn{
@@ -489,6 +514,7 @@
     background: #222;
     border-radius: 12px;
     padding: 30px;
+    width: 90%;
     max-width: 90%;
   }
 
@@ -594,3 +620,106 @@
             margin-bottom: 2rem;
             text-shadow: 0 0 10px currentColor;
         }
+
+#best-record{
+    margin-top: 2rem; font-size: 1.5rem; color: #00ff00;
+}
+
+#audio-settings{
+    margin-top: 2rem; font-size: 1.5rem; color: #00ff00;
+}
+
+@media screen and (max-width: 640px) {
+    .title {
+        font-size: 2.5rem;
+    }
+    .btn-start {
+        padding: 15px 40px;
+        font-size: 1.5rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+    .kart-grid {
+        gap: 15px;
+        padding: 1rem;
+    }
+    .kart-option {
+        width: 120px;
+        height: 120px;
+        font-size: 1rem;
+    }
+    .driver-option {
+        width: 120px;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+    .game-ui {
+        font-size: 1rem;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+    }
+    .game-stats {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    .fuel-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 5px;
+    }
+    .fuel-label {
+        font-size: 1rem;
+    }
+    .fuel-progress {
+        height: 25px;
+    }
+    .fuel-text {
+        font-size: 1rem;
+    }
+    .controls {
+        bottom: 10px;
+        padding: 0 10px;
+    }
+    .control-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+    .btn-next, .btn-back {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+    .pause-modal h2 {
+        font-size: 2.5rem;
+    }
+    .record-display {
+        font-size: 1.2rem;
+    }
+    .pause-btn {
+        padding: 15px 30px;
+        font-size: 1.5rem;
+        min-width: 200px;
+    }
+    .gameover-modal h2 {
+        font-size: 2.5rem;
+    }
+    .gameover-stats {
+        font-size: 1.2rem;
+    }
+    .btn-restart {
+        font-size: 1.5rem;
+        padding: 0.8rem;
+    }
+    .audio-controls {
+        font-size: 1rem;
+        margin-top: 1rem;
+        flex-direction: column;
+    }
+    .music-btn, .audio-btn {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+}

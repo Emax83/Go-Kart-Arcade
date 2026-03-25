@@ -215,20 +215,45 @@
         let gameStartTime = 0;
         
 
+        let roadWidth, roadX, laneWidth;
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+
+            const minWidth = 360; // Smallest screen width to consider
+            const maxWidth = 768; // Largest screen width to consider
+            const minRatio = 0.3; // for maxWidth
+            const maxRatio = 0.9; // for minWidth
+
+            // Clamp the current canvas width to our range
+            const currentWidth = Math.max(minWidth, Math.min(canvas.width, maxWidth));
+
+            // Calculate the interpolation factor (0 for minWidth, 1 for maxWidth)
+            const factor = (currentWidth - minWidth) / (maxWidth - minWidth);
+
+            // Interpolate between maxRatio and minRatio
+            const roadWidthRatio = maxRatio - factor * (maxRatio - minRatio);
+
+            roadWidth = canvas.width * roadWidthRatio;
+            roadX = (canvas.width - roadWidth) / 2;
+            laneWidth = roadWidth / 3;
+
+            // aumentare la variabile per spostare il kart verso l'alto.
+            let distanceFromBottom = 250;
+            kart.y = canvas.height - distanceFromBottom; 
+        }
+
         function initGame() {
             canvas = document.getElementById('game-canvas');
             ctx = canvas.getContext('2d');
             
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
 
-            const roadWidth = canvas.width * 0.6;
-            const roadX = (canvas.width - roadWidth) / 2;
-            const laneWidth = roadWidth / 3;
 
             kart.realX = roadX + laneWidth * 1.5;
             kart.x = kart.realX;
-            kart.y = canvas.height - 240;
             
             // RESET VARIABILI
             fuel = 10;
@@ -419,6 +444,7 @@
 
         function exitToMenu() {
 
+            window.removeEventListener('resize', resizeCanvas);
             //loadAudioSettings();
             displayRecord();
 
@@ -443,10 +469,6 @@
             // AGGIORNA TIMER
             gameTime = (Date.now() - gameStartTime) / 1000;
             document.getElementById('time').textContent = formatTime(gameTime);
-
-            const roadWidth = canvas.width * 0.6;
-            const roadX = (canvas.width - roadWidth) / 2;
-            const laneWidth = roadWidth / 3;
 
             if (!crashed) {
                 if (leftPressed) {
@@ -688,16 +710,6 @@
             saveAudioSettings();
         }
 
-        function startMusic(){
-            if(audioEnabled){
-                const btn = document.getElementById('audioToggle');
-                btn.classList.add('active');
-                btn.textContent = '🔊 Audio ON';
-                changeMusic(musicId);
-            }
-        }
-
-
         // Funzione per suoni specifici
         function playSound(type) {
         if (!audioEnabled) return;
@@ -723,11 +735,13 @@
                 changeMusic(musicId);
             }
             const div = document.getElementById('audio-settings');
-            if(audioEnabled){
-                div.textContent = '🔊 Audio ON';
-            }
-            else{
-                div.textContent = '🔇 Audio OFF';
+            if(div){
+                if(audioEnabled){
+                    div.textContent = '🔊 Audio ON';
+                }
+                else{
+                    div.textContent = '🔇 Audio OFF';
+                }
             }
         }
 
@@ -738,9 +752,6 @@
 
             ctx.fillStyle = '#1a4d1a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            const roadWidth = canvas.width * 0.6;
-            const roadX = (canvas.width - roadWidth) / 2;
 
             ctx.fillStyle = '#444';
             ctx.fillRect(roadX, 0, roadWidth, canvas.height);
@@ -761,7 +772,6 @@
                 }
             }
 
-            const laneWidth = roadWidth / 3;
             ctx.strokeStyle = '#fff';
             ctx.lineWidth = 4;
             ctx.setLineDash([30, 30]);
@@ -865,13 +875,14 @@
             });
 
             if (crashed) {
+                let topDistance = 250;
                 ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
                 ctx.fillStyle = '#ff0000';
-                ctx.font = 'bold 50px Arial';
+                ctx.font = 'bold 40px Arial';
                 ctx.textAlign = 'center';
-                ctx.fillText('💥 COLLISIONE! 💥', canvas.width / 2, 150);
+                ctx.fillText('💥 COLLISIONE! 💥', canvas.width / 2, topDistance);
             }
 
             if (gameOver) {

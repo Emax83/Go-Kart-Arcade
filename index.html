@@ -29,9 +29,6 @@
     <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 
-    <!-- Manifest PWA -->
-    <link rel="manifest" href="/site.webmanifest">
-
     <!-- Windows Tiles (facoltativo, ma utile) -->
     <meta name="msapplication-TileColor" content="#1a0033">
     <meta name="msapplication-config" content="/browserconfig.xml">
@@ -59,8 +56,8 @@
         <button class="btn-start" onclick="showScreen('kart-select');">
             <i class="icon">▶️</i> START
         </button>
-        <div id="best-record" style="margin-top: 2rem; font-size: 1.5rem; color: #00ff00;"></div>
-        <div id="audio-settings" style="margin-top: 2rem; font-size: 1.5rem; color: #00ff00;"></div>
+        <div id="best-record"></div>
+        <div id="audio-settings"></div>
         <div class="madeby">
             <h3>Made with <i class="icon">❤️</i> by <a href="https://www.emax83dev.it">emax83dev</a></h3>
         </div>
@@ -100,8 +97,11 @@
     <div id="game" class="screen">
         <canvas id="game-canvas"></canvas>
         
+        
         <div class="game-ui">
-            <div id="player-info" class="player-info"></div>
+            
+
+            <div id="player-info" class="player-info display-none"></div>
 
             <div class="game-stats">
                 <div class="stat-item"><i class="icon">📏</i> DISTANZA: <span id="distance">0</span>m</div>
@@ -120,12 +120,7 @@
                 </div>
             </div>
 
-            <div class="audio-controls">
-                <button id="audioToggle" class="audio-btn" onclick="toggleAudio()"><i class="icon">🔊</i> Audio ON</button>
-                <button class="music-btn" onclick="changeMusic(0)"><i class="icon"></i>🔇</i> Music NO</button>
-                <button class="music-btn" onclick="changeMusic(1)"><i class="icon"></i>🎵</i> Music 1</button>
-                <button class="music-btn" onclick="changeMusic(2)"><i class="icon"></i>🎵</i> Music 2</button>
-            </div>
+
         </div>
         <div class="controls">
             <button class="control-btn" id="left-btn">
@@ -159,6 +154,12 @@
             <button class="pause-btn pause-btn-exit" onclick="exitToMenu()">
                 <i class="icon">🏁</i> ESCI
             </button>
+        </div>
+        <div class="audio-controls">
+            <button id="audioToggle" class="audio-btn" onclick="toggleAudio()"><i class="icon">🔊</i> Audio ON</button>
+            <button class="music-btn" onclick="changeMusic(0)"><i class="icon"></i>🔇</i> Music NO</button>
+            <button class="music-btn" onclick="changeMusic(1)"><i class="icon"></i>🎵</i> Music 1</button>
+            <button class="music-btn" onclick="changeMusic(2)"><i class="icon"></i>🎵</i> Music 2</button>
         </div>
     </div>
 
